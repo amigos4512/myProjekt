@@ -23,6 +23,7 @@ const updateCartItem = (commodity, item = {}, quantity) => {
     category = commodity.category,
     rating = commodity.rating,
   } = item;
+
   return {
     id,
     title,
@@ -59,7 +60,7 @@ const updateOrder = (state, commodityId, quantity) => {
       0
       
     );
-   
+
   return {
     cart: updateCartItems(cart, newItem, itemIndex),
     totalPrice,

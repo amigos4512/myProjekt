@@ -3,10 +3,10 @@
 import BaseApiClass from './BaseApiClass';
 
 class GoodsService extends BaseApiClass {
-  getGoods = async (page = 1, limit = 10) => {
+  getGoods = async (q, page = 1, limit = 10) => {
     return await this.requestToApi(
       'GET',
-      `getGoods?page=${page}&limit=${limit}`,
+      `getGoods?page=${page}&limit=${limit}&q=${q}`,
       null
     );
   };

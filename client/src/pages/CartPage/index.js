@@ -52,6 +52,6 @@ const CartPage = ({
 
 
 export default connectToStore(
-  ['shopingCart', 'userData.userName', 'goodsList.goods'],
+  ['shopingCart', 'userData.userName', 'goodsList'],
   { fetchGoods }
 )(CartPage);

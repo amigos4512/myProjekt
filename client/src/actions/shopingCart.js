@@ -14,8 +14,8 @@ import { updateBoughtGoods } from './userData';
 
 const commodityAddToCart = goodId => createAction(GOOD_ADD_TO_CART, goodId);
 
-const commodityDeletedFromCart = goodkId =>
-  createAction(GOOD_DELETE_FROM_CART, goodkId);
+const commodityDeletedFromCart = goodId =>
+  createAction(GOOD_DELETE_FROM_CART, goodId);
 
 export const loadCartFromServer = cart =>
   createAction(FETCH_CART_SUCCUESS, cart);
@@ -27,7 +27,7 @@ export const onAddedToCart = (id, token) => async dispatch => {
     dispatch(commodityAddToCart(id));
     await GoodsService.addToCart(id, token);
   } catch (error) {
-    console.log(error);
+    console.warn(error);
   }
 };
 
