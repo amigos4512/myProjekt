@@ -111,7 +111,7 @@ export default function Header() {
             to='/Goods'
             onClick={() => {
               scrollToTop();
-              fetchGoods({});
+              fetchGoods({type: 'allGoods'});
             }}>
             Все товары
           </StyledLinkSecond>

@@ -15,7 +15,7 @@ const updateGoodsList = (state, action) => {
       updateGoods: null,
     };
   }
-console.log(state)
+
   switch (action.type) {
     case FETCH_GOODS_REQUEST:
       return {
@@ -42,7 +42,7 @@ console.log(state)
     case UPDATE_GOODS_SUCCUESS:
       return {
         ...state.goodsList,
-        goods: [...state.goodsList.goods, ...action.payload],
+        goods: [...state.goodsList, ...action.payload],
         updateGoods: false,
       };
 

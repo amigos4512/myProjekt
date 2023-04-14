@@ -144,6 +144,9 @@ const getGoods = async (req, res) => {
 
 module.exports = {
   Goods,
+  findById: async (id) => {
+    return await Goods.findById(id);
+  },
   getGoods,
 };
 

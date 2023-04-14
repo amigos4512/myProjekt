@@ -1,5 +1,4 @@
 /** @format */
-
 import GoodsService from '../services/GoodsService';
 import { createAction } from '../utils/workWithRedux';
 import {
@@ -21,31 +20,26 @@ const updateGoodsSuccuess = goods => createAction(UPDATE_GOODS_SUCCUESS, goods);
 export const fetchGoodsSuccuess = goods =>
   createAction(FETCH_GOODS_SUCCUESS, goods);
 
+const getGoodsServiceMethod = type => {
+  const methods = {
+    popularGoods: GoodsService.getPopularGoods,
+    search: GoodsService.findGoods,
+    newGoods: GoodsService.getNewGoods,
+    bestGoods: GoodsService.getBestGoods,
+    allGoods: GoodsService.getGoods,
+  };
+  return methods[type] || methods.default;
+};
+
 const getDataFromServer = async ({
-  type = 'default',
+  type = 'allGoods',
   strForSearch,
   page=1,
   limit=5,
 }) => {
-  switch (type) {
-    case 'popularGoods':
-      return await GoodsService.getPopularGoods(page,  limit);
-
-    case 'search':
-      return await GoodsService.findGoods(strForSearch, page, limit);
-
-    case 'newGoods':
-      return await GoodsService.getNewGoods(page, limit);
-
-    case 'bestGoods':
-      return await GoodsService.getBestGoods(page, limit);
-
-    default:
-      return await GoodsService.getGoods(page, limit);
-  }
+  const method = getGoodsServiceMethod(type);
+  return await method(strForSearch, page, limit);
 };
-
-
 
 export const fetchGoods = configData => async dispatch => {
   try {
@@ -73,7 +67,12 @@ export const searchGoods =
   async dispatch => {
     try {
       dispatch(fetchGoodsRequest());
-      const data = await GoodsService.findGoods(queryForSearch, page, limit);
+      const data = await getDataFromServer({
+        type: 'search',
+        strForSearch: queryForSearch,
+        page,
+        limit,
+      });
       dispatch(fetchGoodsSuccuess(data));
     } catch (error) {
       dispatch(fetchGoodsFailure());
@@ -85,7 +84,11 @@ export const fetchPopularGoods =
   async dispatch => {
     try {
       dispatch(fetchGoodsRequest());
-      const data = await GoodsService.getPopularGoods(page, limit);
+      const data = await getDataFromServer({
+        type: 'popularGoods',
+        page,
+        limit,
+      });
       dispatch(fetchGoodsSuccuess(data));
     } catch (error) {
       dispatch(fetchGoodsFailure());
@@ -97,7 +100,11 @@ export const fetchNewGoods =
   async dispatch => {
     try {
       dispatch(fetchGoodsRequest());
-      const data = await GoodsService.getNewGoods(page, limit);
+      const data = await getDataFromServer({
+        type: 'newGoods',
+        page,
+        limit,
+      });
       dispatch(fetchGoodsSuccuess(data));
     } catch (error) {
       dispatch(fetchGoodsFailure());
@@ -107,7 +114,11 @@ export const fetchNewGoods =
 export const fetchBestGoods = (page = 1, limit = 10) => async dispatch => {
   try {
     dispatch(fetchGoodsRequest());
-    const data = await GoodsService.getBestGoods(page, limit);
+    const data = await getDataFromServer({
+      type: 'bestGoods',
+      page,
+      limit,
+    });
     dispatch(fetchGoodsSuccuess(data));
   } catch (error) {
     dispatch(fetchGoodsFailure());
